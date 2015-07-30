@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+- var ns = ns.getAttributes({spreadsheetml: '__main', markupCompatibility: 'mc', relationships: 'r', x14ac: 'x14ac'})
+worksheet(mc:Ignorable="x14ac")&attributes(ns)
+  dimension(ref=dimension)/
+  sheetViews
+    sheetView(tabSelected=1, workbookViewId=0)
+      if locals.panes && panes.length
+        each pane in panes
+          pane&attributes(pane)
+      if locals.selection
+        selection&attributes(selection)
+  sheetFormatPr(baseColWidth=10, defaultRowHeight=15, x14ac:dyDescent=0)
+  if locals.cols && cols.length
+    cols
+      each col, i in cols
+        col(customWidth=1, max=(col.column || i + 1), width=col.width)
+  if locals.rows && rows.length
+    sheetData
+      each row, i in rows
+        row(r=i + 1)
+          each cell in row.cells
+            c(r=cell.ref, s=cell.style || 0, t=cell.type)
+              if cell.formula
+                f #{cell.formula}
+              - if ('value' in cell)
+                v #{cell.value}
+  else
+    sheetData/
+  if locals.merges && merges.length
+    mergeCells
+      each merge in merges
+        mergeCell(ref=merge)/
+  phoneticPr(fontId=1, type='noConversion')&attributes(locals.phoneticPr || {})
+  if locals.hyperlinks && hyperlinks.length
+    hyperlinks
+      each hyperlink in hyperlinks
+        hyperlink(r:id=hyperlink.id, ref=hyperlink.ref, tooltip=hyperlink.tooltip)/
+  pageMargins(bottom=1, footer=0.5, header=0.5, left=1, right=1, top=1)/&attributes(locals.pageMargins || {})
+  pageSetup(fitToWidth=1, fitToHeight=1000)/&attributes(locals.pageSetup || {})
+  if locals.headers || locals.footers
+    - var headers = locals.headers || {}
+    - var footers = locals.footers || {}
+    headerFooter
+      if headers.odd
+        oddHeader #{headers.odd}
+      if footers.odd
+        oddFooter #{footers.odd}
+      if headers.even
+        evenHeader #{headers.even}
+      if footers.even
+        evenFooter #{footers.even}
+      if headers.first
+        firstHeader #{headers.first}
+      if footers.first
+        firstFooter #{footers.first}
+

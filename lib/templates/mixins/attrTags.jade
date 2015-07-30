@@ -1,0 +1,5 @@
+- var attrTags = {bold: 'b', italic: 'i', underline: 'u', strike: 'strike'}
+mixin attrTags(style)
+  each tag, attr in attrTags
+    if style[attr]
+      #{tag}()/

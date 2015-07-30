@@ -1,0 +1,8 @@
+//- include mixins/namespaces
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+//- +namespaces(ns)
+workbook&attributes(ns.getAttributes({spreadsheetml: '__main', relationships: 'r'}))
+  sheets
+    each sheet, i in sheets
+      - var id = ++i;
+      sheet(name=sheet.name r:id='rId'+id, sheetId=id)/

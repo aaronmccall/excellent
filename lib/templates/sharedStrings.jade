@@ -1,0 +1,27 @@
+include mixins/attrTags.jade
+
+mixin richTextStyle(style)
+  +attrTags(style)
+  if style.size
+    sz(val=style.size)
+  color&attributes(style.color || {rgb: 'FF000000'})
+  rFont(val=style.font || 'Calibri')
+  family(val=style.family || 2)
+  scheme(val=style.scheme || 'minor')
+
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+sst(count=stringCellCount, uniqueCount=uniqueStrings.length, xmlns=ns.spreadsheetml)
+  each string in uniqueStrings
+    si
+      if typeof string === 'string'
+        t #{string}
+      else
+        each part in string
+          r
+            if typeof part === 'string'
+              t(xml:space=part.indexOf(' ') !== -1 ? "preserve" : void 0) #{part}
+            else
+              rPr
+                +richTextStyle(part.style)
+              t #{part.text}

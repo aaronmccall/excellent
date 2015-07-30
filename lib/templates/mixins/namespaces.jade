@@ -1,0 +1,5 @@
+mixin namespaces(spec)
+  - var map = { main: "http://schemas.openxmlformats.org/spreadsheetml/2006/main", relationships: "http://schemas.openxmlformats.org/officeDocument/2006/relationships" }
+  each name, key in spec
+    if map[name]
+      - spec[key] = map[name]
