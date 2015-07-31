@@ -1,3 +1,4 @@
+extends ./xml.jade
 include mixins/attrTags.jade
 
 mixin richTextStyle(style)
@@ -10,18 +11,18 @@ mixin richTextStyle(style)
   scheme(val=style.scheme || 'minor')
 
 
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-sst(count=stringCellCount, uniqueCount=uniqueStrings.length, xmlns=ns.spreadsheetml)
-  each string in uniqueStrings
-    si
-      if typeof string === 'string'
-        t #{string}
-      else
-        each part in string
-          r
-            if typeof part === 'string'
-              t(xml:space=part.indexOf(' ') !== -1 ? "preserve" : void 0) #{part}
-            else
-              rPr
-                +richTextStyle(part.style)
-              t #{part.text}
+block content
+  sst(count=stringCellCount, uniqueCount=uniqueStrings.length, xmlns=ns.spreadsheetml)
+    each string in uniqueStrings
+      si
+        if typeof string === 'string'
+          t #{string}
+        else
+          each part in string
+            r
+              if typeof part === 'string'
+                t(xml:space="preserve") #{part}
+              else
+                rPr
+                  +richTextStyle(part.style)
+                t(xml:space="preserve") #{part.text}

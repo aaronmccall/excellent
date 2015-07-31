@@ -1,0 +1,20 @@
+extends ./xml.jade
+block content
+  xdr:wsDr&attributes(namespaces)
+    xdr:absoluteAnchor
+      xdr:pos/&attributes(origin)
+      xdr:ext/&attributes(extent)
+      xdr:pic
+        xdr:cNvPr(descr=description || image.filename, id=id, name=name || 'Picture 1')
+        xdr:cNvPicPr
+          a:picLocks(noChangeAspect=1)
+      xdr:blipFill
+        a:blip(r:embed="rId"+relationshipId, xmlns:r=ns.relationships)/
+        a:stretch
+          a:fillRect/
+      xdr:spPr
+        a:xfrm
+          a:off/&attributes(origin)
+          a:ext/&attributes(extent)
+        a:prstGeom(prst='rect')
+          a:avLst

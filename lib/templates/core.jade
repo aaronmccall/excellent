@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-cp:coreProperties&attributes(ns.getAttributes(['cp', 'dc', 'dcmitype', 'dcterms', 'xsi']))
-  - creator = creator || 'Excellent'
-  dc:creator #{creator}
-  cp:lastModifiedBy #{creator}
-  - ts = created || (Date.toISOString())
-  dcterms:created(xsi:type="dcterms:W3CDTF") #{ts}
-  dcterms:modified(xsi:type="dcterms:W3CDTF") #{ts}
+extends ./xml.jade
+block content
+  cp:coreProperties&attributes(ns.getAttributes(['cp', 'dc', 'dcmitype', 'dcterms', 'xsi']))
+    - creator = creator || 'Excellent'
+    dc:creator #{creator}
+    cp:lastModifiedBy #{creator}
+    - ts = created || (Date.toISOString())
+    dcterms:created(xsi:type="dcterms:W3CDTF") #{ts}
+    dcterms:modified(xsi:type="dcterms:W3CDTF") #{ts}

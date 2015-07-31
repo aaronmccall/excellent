@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-Types(xmlns=ns.contentTypes)
-  each type, ext in defaults
-    Default(ContentType=type, Extension=ext)
-  each item in overrides
-    Override(ContentType=item.type, PartName=item.path)
+extends ./xml.jade
+block content
+  Types(xmlns=ns.contentTypes)
+    each type, ext in defaults
+      Default(ContentType=type, Extension=ext)
+    each item in overrides
+      Override(ContentType=item.type, PartName=item.path)
