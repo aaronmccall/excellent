@@ -1,8 +1,11 @@
-//- include mixins/namespaces
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-//- +namespaces(ns)
-workbook&attributes(ns.getAttributes({spreadsheetml: '__main', relationships: 'r'}))
-  sheets
-    each sheet, i in sheets
-      - var id = ++i;
-      sheet(name=sheet.name r:id='rId'+id, sheetId=id)/
+extends ./xml.jade
+block content
+  workbook&attributes(namespaces)
+    sheets
+      each sheet, i in sheets
+        sheet(name=sheet.name r:id='rId'+sheet.rId, sheetId=sheet.id)/
+    if hasDefinedNames
+      definedNames
+        each sheet, localId in sheets
+          each definedName in sheet.definedNames
+            definedName(localSheetId=localId, name=definedName.name) #{definedName.value}
