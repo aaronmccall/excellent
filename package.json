@@ -4,8 +4,9 @@
   "description": "\"Make a spreadsheet, you say? Style it nicely and use a pre-existing template too? All in node.js/io.js? Yessir!\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "templatizer": "node_modules/templatizer/bin/cli -d ./lib/templates -o ./lib/documents/templates.js"
+    "test": "node_modules/.bin/lab -v",
+    "test-cov": "node_modules/.bin/lab --reporter html --output coverage.html",
+    "templatizer": "node_modules/templatizer/bin/cli -d ./lib/templates -o ./lib/parts/templates.js"
   },
   "repository": {
     "type": "git",
@@ -40,5 +41,10 @@
     "lodash.partial": "^3.1.1",
     "lodash.pick": "^3.1.0",
     "templatizer": "^1.5.2"
+  },
+  "devDependencies": {
+    "code": "^1.5.0",
+    "lab": "^5.14.0",
+    "sinon": "^1.15.4"
   }
 }
