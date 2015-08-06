@@ -12,8 +12,8 @@ mixin richTextStyle(style)
 
 
 block content
-  sst(count=stringCellCount, uniqueCount=uniqueStrings.length, xmlns=ns.spreadsheetml)
-    each string in uniqueStrings
+  sst(count=count, uniqueCount=strings.length)&attributes(namespaces)
+    each string in strings
       si
         if typeof string === 'string'
           t #{string}

@@ -1,6 +1,6 @@
 extends ./xml.jade
 block content
-  Types(xmlns=ns.contentTypes)
+  Types&attributes(namespaces)
     each type, ext in defaults
       Default(ContentType=type, Extension=ext)
     each item in overrides

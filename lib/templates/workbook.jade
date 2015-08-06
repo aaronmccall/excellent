@@ -6,6 +6,5 @@ block content
         sheet(name=sheet.name r:id='rId'+sheet.rId, sheetId=sheet.id)/
     if hasDefinedNames
       definedNames
-        each sheet, localId in sheets
-          each definedName in sheet.definedNames
-            definedName(localSheetId=localId, name=definedName.name) #{definedName.value}
+          each definedName, name in definedNames
+            definedName(localSheetId=definedName.id, name=name) #{definedName.value}
