@@ -36,9 +36,13 @@ describe('Part', function () {
         expect(data.ns).to.equal(ns);
     }));
     it('passes its serialized data to its template when outputting XML', utilities.wrapDone(function () {
+        part.data = {foo: 1};
         var data = part.serialize();
         part.toXML();
         expect(part.template.calledOnce).to.equal(true);
         expect(part.template.getCall(0).args[0]).to.deep.equal(data);
+    }));
+    it('toXML: returns template if template is not a function', utilities.wrapDone(function () {
+        expect(new Part({}, 'foo').toXML()).to.equal('foo');
     }));
 });
