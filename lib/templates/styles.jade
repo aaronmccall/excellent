@@ -1,6 +1,6 @@
 extends ./xml.jade
 block content
-  styleSheet&attributes(namespaces)
+  styleSheet(mc:Ignorable='x14ac')&attributes(namespaces)
     numFmts(count=numberFormats.length)
       - locals.numberFormatRefs = {}
       each locale, n in numberFormats
