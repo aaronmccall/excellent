@@ -1,28 +1,10 @@
 extends ./xml.jade
-include mixins/attrTags.jade
-
-mixin richTextStyle(style)
-  +attrTags(style)
-  if style.size
-    sz(val=style.size)
-  color&attributes(style.color || {rgb: 'FF000000'})
-  rFont(val=style.font || 'Calibri')
-  family(val=style.family || 2)
-  scheme(val=style.scheme || 'minor')
-
 
 block content
   sst(count=count, uniqueCount=strings.length)&attributes(namespaces)
     each string in strings
       si
-        if typeof string === 'string'
+        if string
           t #{string}
         else
-          each part in string
-            r
-              if typeof part === 'string'
-                t(xml:space="preserve") #{part}
-              else
-                rPr
-                  +richTextStyle(part.style)
-                t(xml:space="preserve") #{part.text}
+          t/

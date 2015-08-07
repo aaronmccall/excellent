@@ -1,4 +1,16 @@
 extends ./xml.jade
+
+include mixins/attrTags.jade
+
+mixin richTextStyle(style)
+  +attrTags(style)
+  if style.size
+    sz(val=style.size)
+  color&attributes(style.color || {rgb: 'FF000000'})
+  rFont(val=style.font || 'Calibri')
+  family(val=style.family || 2)
+  scheme(val=style.scheme || 'minor')
+
 block content
   worksheet(mc:Ignorable="x14ac")&attributes(namespaces)
     dimension(ref=dimension)/
@@ -20,10 +32,23 @@ block content
           row(r=i + 1)
             each cell in row.cells
               c(r=cell.ref, s=cell.style || 0, t=cell.type)
-                if cell.formula
-                  f #{cell.formula}
-                - if ('value' in cell)
-                  v #{cell.value}
+                each prop, key in cell
+                  if key === 'formula'
+                    f #{prop}
+                  if prop === 'value'
+                    if cell.value
+                      v #{prop}
+                    else
+                      v/
+                  if key === 'inline'
+                    is
+                      each part in prop
+                        r
+                          if part.style
+                            +richTextStyle(part.style)
+                          if part.text
+                            t(xml:space="preserve") #{part.text}
+
     else
       sheetData/
     if locals.merges && merges.length
