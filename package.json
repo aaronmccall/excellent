@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/lab -v",
-    "test-cov": "node_modules/.bin/lab --reporter html --output coverage.html",
+    "test-cov": "node_modules/.bin/lab --reporter html --output coverage.html --coverage-path lib --coverage-exclude lib/parts/templates.js",
     "templatizer": "node_modules/templatizer/bin/cli -d ./lib/templates -o ./lib/parts/templates.js"
   },
   "repository": {
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "code": "^1.5.0",
-    "lab": "^5.14.0",
+    "lab": "^5.15.1",
     "sinon": "^1.15.4"
   }
 }
