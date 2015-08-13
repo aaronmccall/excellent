@@ -1,71 +1,70 @@
 extends ./xml.jade
+include ../mixins/attrTags.jade
+
+mixin valTag(tag, val)
+  - var tagMap = {size: 'sz'}
+  #{tagMap[tag] || tag}(val=val)/
+
 block content
   styleSheet(mc:Ignorable='x14ac')&attributes(namespaces)
     numFmts(count=numberFormats.length)
-      - locals.numberFormatRefs = {}
       each locale, n in numberFormats
-        - locals.numberFormatRefs[locale.label] = numberFormatsBaseId + n
-        numFmt(numFmtId=numberFormatsBaseId + n, formatCode!=locale.format)
+        numFmt(numFmtId=200 + n, formatCode!=locale.format)
     fonts(count=fonts.length, "x14ac:knownFonts"="1")
-      - var knownProps = 'size-bold-italic-name'
-      - locals.fontRefs = {}
       each font, o in fonts
-        - locals.fontRefs[font.label] = o
         font
-          name(val=font.name)/
-          sz(val=font.size)/
+          +attrTags(font)
+          each tag in ['name', 'size', 'scheme', 'family']
+            if (font[tag])
+              +valTag(tag, font[tag])
           if font.color
             color/&attributes(font.color)
-          if font.family
-            family(val=font.family)/
-          if font.scheme
-            scheme(val=font.scheme)
-          if font.bold
-            b/
-          if font.italic
-            i/
+          if font.subscript || font.superscript
+            vertAlign(val=font.subscript ? 'subscript' : 'superscript')/
+
     fills(count=fills.length)
-      - locals.fillRefs = {}
       each fill, l in fills
-        - locals.fillRefs[fill.label] = l
         fill
-          patternFill(patternType=fill.type)
-            if fill.type === 'solid'
-              fgColor(rgb=fill.color)/
+          if (fill.type === 'pattern')
+            patternFill(patternType=fill.pattern||'solid')
+              if fill.type === 'solid' || fill.color
+                fgColor/&attributes(fill.fgColor || fill.color)
+              if fill.bgColor
+                bgColor/&attributes(fill.bgColor)
+          if (fill.type === 'gradient')
+            gradientFill&attributes()
     borders(count=borders.length)
-      - locals.borderRefs = {}
       each border, r in borders
-        - locals.borderRefs[border.label] = r
         if Object.keys(border).length === 1
           border/
         else
           border
             if border.left
-              left&attributes(border.left.attrs)
+              left(style=border.left.style)
                 if border.left.color
                   color/&attributes(border.left.color)
             else
               left/
             if border.right
-              right&attributes(border.right.attrs)
+              right(style=border.right.style)
                 if border.right.color
                   color/&attributes(border.right.color)
             else
               right/
             if border.top
-              top&attributes(border.top.attrs)
+              top(style=border.top.style)
                 if border.top.color
                   color/&attributes(border.top.color)
             else
               top/
             if border.bottom
-              bottom&attributes(border.bottom.attrs)
+              bottom(style=border.bottom.style)
                 if border.bottom.color
                   color/&attributes(border.bottom.color)
             else
               bottom/
             if border.diagonal
-              diagonal&attributes(border.diagonal.attrs)
+              diagonal(style=border.diagonal.style)
                 if border.diagonal.color
                   color/&attributes(border.diagonal.color)
             else
@@ -73,12 +72,10 @@ block content
     cellStyleXfs(count="1")
       xf(borderId="0" fillId="0" fontId="0" numFmtId="0")/
     cellXfs(count=cellStyles.length)
-      - locals.cellStyleRefs = {}
       each style, t in cellStyles
-        - var fillId = style.fill !== 'none'? locals.fillRefs[style.fill] : 0
-        - var borderId = style.border ? locals.borderRefs[style.border] : 0
-        - var numberFormat = style.numberFormat ? locals.numberFormatRefs[style.numberFormat] : 0
-        - locals.cellStyleRefs[getCellStyleName(style)] = t
+        - var fillId = ('fill' in style && style.fill) || 0
+        - var borderId = ('border' in style && style.border) || 0
+        - var numberFormat = ('numberFormat' in style && (style.numberFormat + 200)) || 0
         if Object.keys(style).length === 1
           xf/
         else
