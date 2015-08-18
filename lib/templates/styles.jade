@@ -1,5 +1,5 @@
 extends ./xml.jade
-include ../mixins/attrTags.jade
+include ./mixins/attrTags.jade
 
 mixin valTag(tag, val)
   - var tagMap = {size: 'sz'}
@@ -27,7 +27,7 @@ block content
         fill
           if (fill.type === 'pattern')
             patternFill(patternType=fill.pattern||'solid')
-              if fill.type === 'solid' || fill.color
+              if fill.pattern === 'solid' || fill.color
                 fgColor/&attributes(fill.fgColor || fill.color)
               if fill.bgColor
                 bgColor/&attributes(fill.bgColor)
@@ -35,7 +35,7 @@ block content
             gradientFill&attributes()
     borders(count=borders.length)
       each border, r in borders
-        if Object.keys(border).length === 1
+        if !border || Object.keys(border).length === 1
           border/
         else
           border
@@ -73,10 +73,11 @@ block content
       xf(borderId="0" fillId="0" fontId="0" numFmtId="0")/
     cellXfs(count=cellStyles.length)
       each style, t in cellStyles
+        - var fontId = ('font' in style && style.font) || 0
         - var fillId = ('fill' in style && style.fill) || 0
         - var borderId = ('border' in style && style.border) || 0
         - var numberFormat = ('numberFormat' in style && (style.numberFormat + 200)) || 0
-        if Object.keys(style).length === 1
+        if !style || Object.keys(style).length === 1
           xf/
         else
           xf(
@@ -85,7 +86,7 @@ block content
             applyNumberFormat = numberFormat && 1 || void 0,
             borderId = borderId,
             fillId =  fillId,
-            fontId = locals.fontRefs[style.font],
+            fontId = fontId,
             numFmtId = numberFormat,
             xfId=0
           )
