@@ -1,7 +1,6 @@
 var Code = require('code');
 var Lab = require('lab');
 var partial = require('lodash.partial');
-
 var lab = exports.lab = Lab.script();
 
 var describe = lab.describe;
@@ -15,14 +14,6 @@ var utilities = require('../lib/utilities');
 var Document = require('../lib/document');
 var JSZip = require('jszip');
 var Rels = require('../lib/parts/rels');
-
-function readOnlyTest(obj, name, test) {
-    it('has a read-only property: ' + name, function (done) {
-        if (test) test();
-        expect(function () { obj[name] = 'foo'; }).to.throw(Error, new RegExp("Cannot set " + name + " directly\."));
-        done()
-    });
-}
 
 describe('Document', function () {
     var document = new Document({sheets: []}, {lazy: false});
@@ -53,6 +44,7 @@ describe('Document', function () {
         expect(document.rels).to.be.an.instanceof(Rels);
     });
     it('addData: merges new data with existing data', utilities.wrapDone(function () {
+        var document = new Document({sheets: []});
         var sheets = document.data.sheets;
         document.addData();
         document.addData({sheets: [{rows: []}]});

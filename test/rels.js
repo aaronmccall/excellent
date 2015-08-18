@@ -65,8 +65,8 @@ describe('Rels', function () {
         var rels = new Rels({});
         rels.addRel({type: 'foo', path: 'bar'});
         rels.addRel({type: 'hyperlink'});
-        expect(rels.data[0]).to.deep.equal({rId: 'rId1', type: 'foo', target: 'bar', targetMode: undefined, part: rels.parts[0].part});
-        expect(rels.data[1]).to.deep.equal({rId: 'rId2', type: relationships.hyperlink, target: undefined, targetMode: undefined, part: rels.parts[1].part});
+        expect(rels.data.rels[0]).to.deep.equal({rId: 'rId1', type: 'foo', target: 'bar', targetMode: undefined, part: rels.parts[0].part});
+        expect(rels.data.rels[1]).to.deep.equal({rId: 'rId2', type: relationships.hyperlink, target: undefined, targetMode: undefined, part: rels.parts[1].part});
     }));
     it('has getter props that filter parts by type', utilities.wrapDone(function () {
         var rels = new Rels({});

@@ -15,8 +15,8 @@ describe('namespaces', function () {
     it('has a method named getAttributes', function (done) {
         expect(namespaces.getAttributes).to.exist();
         expect(namespaces.getAttributes(['dc', 'dcmitype'])).to.deep.equal({
-            dc: namespaces.dc,
-            dcmitype: namespaces.dcmitype
+            "xmlns:dc": namespaces.dc,
+            "xmlns:dcmitype": namespaces.dcmitype
         });
         done();
     });

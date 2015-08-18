@@ -30,4 +30,6 @@ describe('Worksheet', function () {
     readOnlyTest('range');
     readOnlyTest('rows');
     readOnlyTest('data');
+    it('throws when constructed without sheetData or sheetData.name');
+    it('adds rows if defined in sheetData');
 });

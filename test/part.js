@@ -16,19 +16,12 @@ var utilities = require('../lib/utilities');
 describe('Part', function () {
     var spec, part;
     beforeEach(utilities.wrapDone(function () {
-        Sinon.spy(ns, 'getAttributes');
         Sinon.spy(Part.prototype, 'serialize');
         spec = {test: '__main', 'other': null};
         part = new Part(spec, Sinon.spy());
     }));
     afterEach(utilities.wrapDone(function () {
         Part.prototype.serialize.restore();
-        ns.getAttributes.restore();
-    }));
-    it('passes its namespaceSpec to namespaces.getAttributes when serializing', utilities.wrapDone(function () {
-        part.serialize();
-        expect(ns.getAttributes.calledOnce).to.equal(true);
-        expect(ns.getAttributes.getCall(0).args[0]).to.equal(spec);
     }));
     it('adds the full namespaces module to its serialized data', utilities.wrapDone(function () {
         var data = part.serialize();

@@ -27,6 +27,7 @@ describe('SharedStrings', function () {
     var sharedStrings = new SharedStrings();
     var readOnlyTest = partial(utilities.readOnlyTest, bdd, sharedStrings);
     var constantTest = partial(utilities.constantTest, bdd, sharedStrings);
+    var writeOnceTest = partial(utilities.writeOnceTest, bdd, sharedStrings);
     constantTest('filename');
     readOnlyTest('data', function () {
         var sharedStrings = new SharedStrings();
@@ -43,6 +44,7 @@ describe('SharedStrings', function () {
     });
     readOnlyTest('strings');
     readOnlyTest('stringMap');
+    writeOnceTest('parent');
     it('count is incrememented by every add, even if no new string added', utilities.wrapDone(function () {
         expect(sharedStrings.count).to.equal(0);
         sharedStrings.add('foo');
