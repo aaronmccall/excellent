@@ -1,3 +1,4 @@
+var assign = require('lodash.assign');
 var Code = require('code');
 var Lab = require('lab');
 var partial = require('lodash.partial');
@@ -16,7 +17,7 @@ var JSZip = require('jszip');
 var Rels = require('../lib/parts/rels');
 
 describe('Document', function () {
-    var document = new Document({sheets: []}, {lazy: false});
+    var document = new Document({sheets: [], docProps: {}}, {lazy: false});
     var readOnlyTest = partial(utilities.readOnlyTest, bdd, document);
     var constantTest = partial(utilities.constantTest, bdd, document);
     constantTest('filename', function () {
@@ -27,6 +28,7 @@ describe('Document', function () {
         expect(document.path).to.be.a.string();
         expect(document.path).to.equal('');
     });
+    utilities.writeOnceTest(bdd, document, 'docProps');
     utilities.writeOnceTest(bdd, document, 'workbook');
     readOnlyTest('container', function () {
         expect(document.container).to.be.an.object();
@@ -34,7 +36,7 @@ describe('Document', function () {
     });
     readOnlyTest('data', function () {
         expect(document.data).to.be.an.object();
-        expect(document.data).to.deep.equal({sheets: []});
+        expect(document.data).to.deep.equal({sheets: [], docProps: {}});
     });
     readOnlyTest('options', function () {
         expect(document.options).to.be.an.object();
@@ -43,6 +45,11 @@ describe('Document', function () {
     readOnlyTest('rels', function () {
         expect(document.rels).to.be.an.instanceof(Rels);
     });
+    it('always has data and options objects', utilities.wrapDone(function () {
+        var doc = new Document();
+        expect(doc.data).to.be.an.object().and.deep.equal({});
+        expect(doc.options).to.be.an.object().and.deep.equal({});
+    }))
     it('addData: merges new data with existing data', utilities.wrapDone(function () {
         var document = new Document({sheets: []});
         var sheets = document.data.sheets;
@@ -56,9 +63,16 @@ describe('Document', function () {
             definedNames: {}
         });
     }));
-    it('always has data and options objects', utilities.wrapDone(function () {
-        var doc = new Document();
-        expect(doc.data).to.be.an.object().and.deep.equal({});
-        expect(doc.options).to.be.an.object().and.deep.equal({});
-    }))
+    it('addDocProps: always adds a CoreProperties part, empty or not', utilities.wrapDone(function () {
+        var document = new Document(null, {lazy: true});
+        document.addDocProps();
+        expect(document.docProps.data).to.deep.equal({});
+        var creator = {creator: 'Aaron'};
+        document.addDocProps(creator);
+        expect(document.docProps.data).to.deep.equal(creator);
+        var created = new Date;
+        document.addData({docProps: { created: created }});
+        document.addDocProps();
+        expect(document.docProps.data).to.deep.equal(assign({ created: created }, creator));
+    }));
 });
