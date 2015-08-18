@@ -4,7 +4,7 @@ block content
     - creator = creator || 'Excellent'
     dc:creator #{creator}
     cp:lastModifiedBy #{creator}
-    - ts = createdAt || (Date.toISOString())
+    - ts = (createdAt && createdAt instanceof Date && createdAt || (new Date)).toISOString()
     dcterms:created(xsi:type="dcterms:W3CDTF") #{ts}
-    - lm = lastModified || ts
+    - lm = (lastModified && lastModified instanceof Date && lastModified.toISOString()) || ts
     dcterms:modified(xsi:type="dcterms:W3CDTF") #{ts}
