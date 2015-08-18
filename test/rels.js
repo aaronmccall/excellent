@@ -62,8 +62,8 @@ describe('Rels', function () {
         expect(rels.getId(part)).to.equal(1);
     }))
     it('data contains transformed part items', utilities.wrapDone(function () {
-        var rels = new Rels({});
-        rels.addRel({type: 'foo', path: 'bar'});
+        var rels = new Rels({path: '/foo/baz'});
+        rels.addRel({type: 'foo', path: '/foo/bar'});
         rels.addRel({type: 'hyperlink'});
         expect(rels.data.rels[0]).to.deep.equal({rId: 'rId1', type: 'foo', target: 'bar', targetMode: undefined, part: rels.parts[0].part});
         expect(rels.data.rels[1]).to.deep.equal({rId: 'rId2', type: relationships.hyperlink, target: undefined, targetMode: undefined, part: rels.parts[1].part});
