@@ -2,10 +2,10 @@ mixin attrTag(tag, attrs)
   if typeof attrs === 'object'
       #{tag}/&attributes(attrs)
   else
-      #{tag}/&attributes({})
+      #{tag}(val=void 0)/
 
 mixin attrTags(style)
-  - attrTags = {bold: 'b', italic: 'i', strike: 'strike', underline: 'u'}
+  - var attrTags = {bold: 'b', italic: 'i', strike: 'strike', underline: 'u'}
   each tag, attr in attrTags
     if style[attr]
-      +attrTag(attrTags[key], style[attr])
+      +attrTag(tag, style[attr])
