@@ -3,7 +3,7 @@ block content
   workbook&attributes(namespaces)
     sheets
       each sheet, i in sheets
-        sheet(name=sheet.name r:id='rId'+sheet.rId, sheetId=sheet.id)/
+        sheet(name=sheet.name r:id=sheet.rId, sheetId=sheet.id)/
     if hasDefinedNames
       definedNames
           each definedName, name in definedNames

@@ -6,4 +6,5 @@ block content
     cp:lastModifiedBy #{creator}
     - ts = createdAt || (Date.toISOString())
     dcterms:created(xsi:type="dcterms:W3CDTF") #{ts}
+    - lm = lastModified || ts
     dcterms:modified(xsi:type="dcterms:W3CDTF") #{ts}

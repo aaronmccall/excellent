@@ -2,25 +2,29 @@ extends ./xml.jade
 
 include mixins/attrTags.jade
 
-mixin richTextStyle(style)
-  +attrTags(style)
-  if style.size
-    sz(val=style.size)
-  color&attributes(style.color || {rgb: 'FF000000'})
-  rFont(val=style.font || 'Calibri')
-  family(val=style.family || 2)
-  scheme(val=style.scheme || 'minor')
+mixin richTextStyle(style, text)
+  r
+    rPr
+      +attrTags(style)
+      if style.size
+        sz(val=style.size)
+      if style.color
+        color&attributes(style.color || {rgb: 'FF000000'})
+      rFont(val=style.font || 'Calibri')
+      family(val=style.family || 2)
+    t(xml:space="preserve") #{part.text}
 
 block content
   worksheet(mc:Ignorable="x14ac")&attributes(namespaces)
     dimension(ref=dimension)/
-    sheetViews
-      sheetView(tabSelected=1, workbookViewId=0)
-        if locals.panes && panes.length
-          each pane in panes
-            pane&attributes(pane)
-        if locals.selection
-          selection&attributes(selection)
+    if locals.pane || locals.selection
+      sheetViews
+        sheetView(workbookViewId=0)
+          if locals.panes && panes.length
+            each pane in panes
+              pane&attributes(pane)
+          if locals.selection
+            selection&attributes(selection)
     sheetFormatPr(baseColWidth=10, defaultRowHeight=15, x14ac:dyDescent=0)
     if locals.cols && cols.length
       cols
@@ -31,23 +35,18 @@ block content
         each row, i in rows
           row(r=i + 1)
             each cell in row.cells
-              c(r=cell.ref, s=cell.style || 0, t=cell.type)
-                each prop, key in cell
-                  if key === 'formula'
-                    f #{prop}
-                  if prop === 'value'
-                    if cell.value
-                      v #{prop}
-                    else
-                      v/
-                  if key === 'inline'
-                    is
-                      each part in prop
-                        r
-                          if part.style
-                            +richTextStyle(part.style)
-                          if part.text
-                            t(xml:space="preserve") #{part.text}
+              c(r=cell.ref, s=cell.style || void 0, t=cell.type)
+                if 'formula' in cell
+                  f #{cell.formula}
+                if 'value' in cell
+                    v #{cell.value}
+                if 'inline' in cell
+                  is
+                    each part in cell.inline
+                      if part.style
+                        +richTextStyle(part.style, part.text)
+                      else
+                        t(xml:space="preserve") #{part.text}
 
     else
       sheetData/

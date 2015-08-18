@@ -1,12 +1,11 @@
-- var attrTags = {bold: 'b', italic: 'i', strike: 'strike', underline: 'u'}
-
-mixin attrTag(key, attrs)
+mixin attrTag(tag, attrs)
   if typeof attrs === 'object'
-    #{attrTags[key]}/&attributes(attrs)
+      #{tag}/&attributes(attrs)
   else
-    #{attrTags[key]}/
+      #{tag}/&attributes({})
 
-mixin attrTags(style, attrs)
+mixin attrTags(style)
+  - attrTags = {bold: 'b', italic: 'i', strike: 'strike', underline: 'u'}
   each tag, attr in attrTags
     if style[attr]
-      +attrTag(key, style[attr])
+      +attrTag(attrTags[key], style[attr])

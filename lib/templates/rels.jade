@@ -2,4 +2,4 @@ extends ./xml.jade
 block content
   Relationships&attributes(namespaces)
     each rel in rels
-      Relationship(Id=rel.rId, Target=rel.target, Type=rel.type, TargetMode=rel.targetMode)/
+      Relationship(Id=rel.rId, Target=(rel.target.indexOf('/') === 0 ? rel.target.slice(1) : rel.target), Type=rel.type, TargetMode=rel.targetMode)/
