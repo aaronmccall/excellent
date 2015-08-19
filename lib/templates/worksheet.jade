@@ -77,4 +77,7 @@ block content
           firstHeader #{headers.first}
         if footers.first
           firstFooter #{footers.first}
+    if locals.drawings
+      each drawing in drawings
+        drawing(r:id=drawing.rId)
 
