@@ -32,7 +32,7 @@ block content
               if fill.bgColor
                 bgColor/&attributes(fill.bgColor)
           if (fill.type === 'gradient')
-            gradientFill&attributes()
+            gradientFill&attributes(fill.gradient)
     borders(count=borders.length)
       each border, r in borders
         if !border || Object.keys(border).length === 1
