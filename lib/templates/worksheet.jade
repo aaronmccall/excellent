@@ -12,28 +12,28 @@ mixin richTextStyle(style, text)
         color&attributes(style.color || {rgb: 'FF000000'})
       rFont(val=style.font || 'Calibri')
       family(val=style.family || 2)
-    t(xml:space="preserve") #{part.text}
+    t(xml:space="preserve") #{text}
 
 block content
   worksheet(mc:Ignorable="x14ac")&attributes(namespaces)
     dimension(ref=dimension)/
-    if locals.pane || locals.selection
-      sheetViews
-        sheetView(workbookViewId=0)
-          if locals.panes && panes.length
-            each pane in panes
-              pane&attributes(pane)
-          if locals.selection
-            selection&attributes(selection)
+    sheetViews
+      sheetView(workbookViewId=0, tabSelected=tabSelected||1)
+        if locals.panes && panes.length
+          each pane in panes
+            pane&attributes(pane)
+        if locals.selection
+          selection&attributes(selection)
     sheetFormatPr(baseColWidth=10, defaultRowHeight=15, x14ac:dyDescent=0)
-    if locals.cols && cols.length
+    if locals.columns && columns.length
       cols
-        each col, i in cols
-          col(customWidth=1, max=(col.column || i + 1), width=col.width)
+        each col, i in columns
+          - var colIndex = (col.column || i + 1)
+          col(customWidth=1, min=colIndex, max=colIndex, width=col.width)
     if locals.rows && rows.length
       sheetData
         each row, i in rows
-          row(r=i + 1)
+          row(r=i + 1, ht=row.height || void 0, customHeight=row.height && 1 || void 0)
             each cell in row.cells
               c(r=cell.ref, s=cell.style || void 0, t=cell.type)
                 if 'formula' in cell
@@ -51,7 +51,7 @@ block content
     else
       sheetData/
     if locals.merges && merges.length
-      mergeCells
+      mergeCells(count=merges.length)
         each merge in merges
           mergeCell(ref=merge)/
     phoneticPr(fontId=1, type='noConversion')&attributes(locals.phoneticPr || {})
@@ -60,7 +60,7 @@ block content
         each hyperlink in hyperlinks
           hyperlink(r:id=hyperlink.id, ref=hyperlink.ref, tooltip=hyperlink.tooltip)/
     pageMargins(bottom=1, footer=0.5, header=0.5, left=1, right=1, top=1)/&attributes(locals.pageMargins || {})
-    pageSetup(fitToWidth=1, fitToHeight=1000)/&attributes(locals.pageSetup || {})
+    pageSetup(fitToWidth=1)/&attributes(locals.pageSetup || {})
     if locals.headers || locals.footers
       - var headers = locals.headers || {}
       - var footers = locals.footers || {}

@@ -6,14 +6,11 @@ block content
       xdr:ext/&attributes(extent)
       xdr:pic
         xdr:nvPicPr
-          xdr:cNvPr(descr=description || filename, id=id, name=name || 'Picture 1')
+          xdr:cNvPr(descr=description || filename, id=id, name=name || 'Picture ' + id)
           xdr:cNvPicPr
             a:picLocks(noChangeAspect=1)
         xdr:blipFill
-          a:blip(r:embed="rId"+id, xmlns:r=ns.relationships)
-            a:extLst
-              a:ext(uri="{28A0092B-C50C-407E-A947-70E740481C1C}")
-                a14:useLocalDpi(val="0" xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main")/
+          a:blip(r:embed="rId"+id, xmlns:r=ns.relationships)/
           a:stretch
             a:fillRect/
         xdr:spPr

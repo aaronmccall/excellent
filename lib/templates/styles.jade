@@ -5,13 +5,19 @@ mixin valTag(tag, val)
   - var tagMap = {size: 'sz'}
   #{tagMap[tag] || tag}(val=val)/
 
+mixin labelComment(obj, i)
+  if obj.label
+    != '<!--[' + i + '] = ' + obj.label + '-->'
+
 block content
   styleSheet(mc:Ignorable='x14ac')&attributes(namespaces)
     numFmts(count=numberFormats.length)
-      each locale, n in numberFormats
-        numFmt(numFmtId=200 + n, formatCode!=locale.format)
+      each format, n in numberFormats
+        +labelComment(format, n)
+        numFmt(numFmtId=200 + n, formatCode!=format.code)
     fonts(count=fonts.length, "x14ac:knownFonts"="1")
       each font, o in fonts
+        +labelComment(font, o)
         font
           +attrTags(font)
           each tag in ['name', 'size', 'scheme', 'family']
@@ -24,6 +30,7 @@ block content
 
     fills(count=fills.length)
       each fill, l in fills
+        +labelComment(fill, l)
         fill
           if (fill.type === 'pattern')
             patternFill(patternType=fill.pattern||'solid')
@@ -35,6 +42,7 @@ block content
             gradientFill&attributes(fill.gradient)
     borders(count=borders.length)
       each border, r in borders
+        +labelComment(border, r)
         if !border || Object.keys(border).length === 1
           border/
         else
@@ -73,14 +81,16 @@ block content
       xf(borderId="0" fillId="0" fontId="0" numFmtId="0")/
     cellXfs(count=cellStyles.length)
       each style, t in cellStyles
+        +labelComment(style, t)
         - var fontId = ('font' in style && style.font) || 0
         - var fillId = ('fill' in style && style.fill) || 0
         - var borderId = ('border' in style && style.border) || 0
-        - var numberFormat = ('numberFormat' in style && (style.numberFormat + 200)) || 0
+        - var numberFormat = ('numberFormat' in style && style.numberFormat) || 0
         if !style || Object.keys(style).length === 1
           xf/
         else
           xf(
+            applyAlignment = style.alignment && 1,
             applyBorder = borderId && 1 || void 0,
             applyFill = fillId && 1 || void 0,
             applyNumberFormat = numberFormat && 1 || void 0,
