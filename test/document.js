@@ -17,7 +17,7 @@ var JSZip = require('jszip');
 var Rels = require('../lib/parts/rels');
 
 describe('Document', function () {
-    var document = new Document({sheets: [], docProps: {}}, {lazy: false});
+    var document = new Document({sheets: [], docProps: {}}).build();
     var readOnlyTest = partial(utilities.readOnlyTest, bdd, document);
     var constantTest = partial(utilities.constantTest, bdd, document);
     constantTest('filename', function () {

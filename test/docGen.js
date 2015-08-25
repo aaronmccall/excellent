@@ -32,4 +32,4 @@ var doc = new Document({
     }
 });
 
-fs.writeFileSync(__dirname + '/test.xlsx', doc.toXLSX());
+fs.writeFileSync(__dirname + '/test.xlsx', doc.build().toXLSX());
