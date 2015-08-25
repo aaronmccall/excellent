@@ -17,7 +17,7 @@ var JSZip = require('jszip');
 var Rels = require('../lib/parts/rels');
 
 describe('Document', function () {
-    var document = new Document({sheets: [], docProps: {}}).build();
+    var document = new Document({sheets: [], docProps: {}}, {foo: 'bar'}).build();
     var readOnlyTest = partial(utilities.readOnlyTest, bdd, document);
     var constantTest = partial(utilities.constantTest, bdd, document);
     constantTest('filename', function () {
@@ -40,7 +40,7 @@ describe('Document', function () {
     });
     readOnlyTest('options', function () {
         expect(document.options).to.be.an.object();
-        expect(document.options).to.deep.equal({lazy: false});
+        expect(document.options).to.deep.equal({foo: 'bar'});
     });
     readOnlyTest('rels', function () {
         expect(document.rels).to.be.an.instanceof(Rels);

@@ -37,7 +37,7 @@ describe('Workbook', function () {
     });
     readOnlyTest('data', function () {
         expect(workbook.data).to.be.an.object();
-        expect(workbook.data).to.deep.equal({sheets: [], definedNames: {}});
+        expect(workbook.data).to.deep.equal({sheets: [], hasDefinedNames: false, definedNames: {}});
     });
     readOnlyTest('definedNames', function () {
         expect(workbook.definedNames).to.be.an.object();

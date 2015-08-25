@@ -14,8 +14,9 @@ var bdd = {it: it, expect: expect};
 var utilities = require('../lib/utilities');
 var Hyperlink = require('../lib/parts/hyperlink');
 
+var fakeParent = {path: 'fake/parent'};
 describe('Hyperlink', function () {
-    var hyperlink = new Hyperlink({
+    var hyperlink = new Hyperlink(fakeParent, {
         url: 'foo',
         ref: 'A1',
     });
@@ -30,7 +31,7 @@ describe('Hyperlink', function () {
     });
     writeOnceTest('ref');
     writeOnceTest('url');
-    hyperlink = new Hyperlink({
+    hyperlink = new Hyperlink(fakeParent, {
         ref: 'B2',
         location: 'Sheet1!A5',
         tooltip: 'Go to A5'
@@ -40,17 +41,17 @@ describe('Hyperlink', function () {
     writeOnceTest('tooltip');
     it('throws when no attrs object', utilities.wrapDone(function () {
         expect(function () {
-            new Hyperlink();
+            new Hyperlink(fakeParent);
         }).to.throw(TypeError, /must be instantiated with an attrs object/)
     }));
     it('throws when no attrs.ref', utilities.wrapDone(function () {
         expect(function () {
-            new Hyperlink({url: 'foo'});
+            new Hyperlink(fakeParent, {url: 'foo'});
         }).to.throw(TypeError, /Missing attrs.ref\./);
     }));
     it('throws when no attrs.url and no attrs.location', utilities.wrapDone(function () {
         expect(function () {
-            new Hyperlink({ref: 'C3'});
+            new Hyperlink(fakeParent, {ref: 'C3'});
         }).to.throw(TypeError, /Missing attrs.url and attrs.location./)
     }));
 });
