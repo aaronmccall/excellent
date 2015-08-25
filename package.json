@@ -1,6 +1,6 @@
 {
   "name": "excellent",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "\"Make a spreadsheet, you say? Style it nicely and use a pre-existing template too? All in node.js/io.js? Yessir!\"",
   "main": "index.js",
   "scripts": {
