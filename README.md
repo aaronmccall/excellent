@@ -9,7 +9,7 @@ excellent takes the pain out of generating Excel (xlsx) spreadsheets in Javascri
 var excellent = require('excellent');
 var fs = require('fs');
 var dkGreyBorder = {style: 'thin', color: 'Charcoal Gray'};
-var doc = excellent({
+var doc = excellent.create({
     sheets: {
         'Summary': {
             image: {image: fs.readFileSync(__dirname + '/assets/dog.png'), filename: 'dog.png'},
