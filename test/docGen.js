@@ -11,7 +11,8 @@ var doc = new Document({
                     {value: 'bar', style: 'bold'},
                     {value: 'foo', style: 'lemonBg'},
                     'baz',
-                    {value: 'quux', style: 'lemonBgBold'}
+                    {value: 'quux', style: 'lemonBgBold'},
+                    {value: [{text: 'bold\n', style: 'bold'}, {text: 'brick', style: 'brick'}], style: 'wrap'}
                 ]
             }, {
                 cells: ['', {value: 'WAT?!', style: 'brick'}, {value: 'dotty', style: 'dotty'}]
@@ -27,9 +28,12 @@ var doc = new Document({
             {label: 'brick', font: 'brick', border: 'dkGrey'},
             {label: 'lemonBg', fill: 'lemon'},
             {label: 'lemonBgBold', font: 'bold', fill: 'lemon'},
-            {label: 'dotty', fill: 1}
+            {label: 'dotty', fill: 1},
+            {label: 'wrap', alignment: {wrapText: 1}}
         ]
     }
+}, {
+    useSharedStrings: true
 });
 
 fs.writeFileSync(__dirname + '/test.xlsx', doc.build().toXLSX());
