@@ -1,10 +1,18 @@
 extends ./xml.jade
+include mixins/richTextStyle.jade
 
 block content
   sst(count=count, uniqueCount=strings.length)&attributes(namespaces)
     each string in strings
       si
-        if string
+        if typeof string == 'string'
           t #{string}
+        else if string && string.length
+          each part in string
+            - console.log('rich text', part)
+            if part.style
+              +richTextStyle(part.style, part.text)
+            else
+              t(xml:space='preserve') #{part.text}
         else
           t/

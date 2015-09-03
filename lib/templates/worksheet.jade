@@ -2,17 +2,7 @@ extends ./xml.jade
 
 include mixins/attrTags.jade
 
-mixin richTextStyle(style, text)
-  r
-    rPr
-      +attrTags(style)
-      if style.size
-        sz(val=style.size)
-      if style.color
-        color&attributes(style.color || {rgb: 'FF000000'})
-      rFont(val=style.font || 'Calibri')
-      family(val=style.family || 2)
-    t(xml:space="preserve") #{text}
+include mixins/richTextStyle.jade
 
 block content
   worksheet(mc:Ignorable="x14ac")&attributes(namespaces)
