@@ -9,34 +9,43 @@ block content
     dimension(ref=dimension)/
     sheetViews
       sheetView(workbookViewId=0, tabSelected=tabSelected||1)
+        - var isFrozen = false
+        - var activePane = null
         if locals.panes && panes.length
           each pane in panes
-            pane&attributes(pane)
+            - isFrozen = isFrozen || pane.state === 'frozen'
+            - activePane = activePane || pane.activePane
+            pane/&attributes(pane)
         if locals.selection
-          selection&attributes(selection)
-    sheetFormatPr(baseColWidth=10, defaultRowHeight=15, x14ac:dyDescent=0)
+          selection/&attributes(selection)
+        else
+          selection(pane=isFrozen ? activePane : void 0, activeCell='A1')/
+    sheetFormatPr(baseColWidth=10, defaultRowHeight=15, x14ac:dyDescent=0)/
     if locals.columns && columns.length
       cols
         each col, i in columns
           - var colIndex = (col.column || i + 1)
-          col(customWidth=1, min=colIndex, max=colIndex, width=col.width)
+          col(customWidth=1, min=colIndex, max=colIndex, width=col.width)/
     if locals.rows && rows.length
       sheetData
         each row, i in rows
-          row(r=i + 1, ht=row.height || void 0, customHeight=row.height && 1 || void 0)
-            each cell in row.cells
-              c(r=cell.ref, s=cell.style || void 0, t=cell.type)
-                if 'formula' in cell
-                  f #{cell.formula}
-                if 'value' in cell
-                    v #{cell.value}
-                if 'inline' in cell
-                  is
-                    each part in cell.inline
-                      if part.style
-                        +richTextStyle(part.style, part.text)
-                      else
-                        t(xml:space="preserve") #{part.text}
+          if (!row.cells || !row.cells.length)
+            row(r=i+1, ht=row.height || void 0, customHeight=row.height && 1 || void 0)/
+          else
+            row(r=i + 1, ht=row.height || void 0, customHeight=row.height && 1 || void 0)
+              each cell in row.cells
+                c(r=cell.ref, s=cell.style || void 0, t=cell.type)
+                  if 'formula' in cell
+                    f #{cell.formula}
+                  if 'value' in cell
+                      v #{cell.value}
+                  if 'inline' in cell
+                    is
+                      each part in cell.inline
+                        if part.style
+                          +richTextStyle(part.style, part.text)
+                        else
+                          t(xml:space="preserve") #{part.text}
 
     else
       sheetData/
@@ -44,7 +53,7 @@ block content
       mergeCells(count=merges.length)
         each merge in merges
           mergeCell(ref=merge)/
-    phoneticPr(fontId=1, type='noConversion')&attributes(locals.phoneticPr || {})
+    phoneticPr(fontId=1, type='noConversion')/&attributes(locals.phoneticPr || {})
     if locals.hyperlinks && hyperlinks.length
       hyperlinks
         each hyperlink in hyperlinks
@@ -69,5 +78,5 @@ block content
           firstFooter #{footers.first}
     if locals.drawings
       each drawing in drawings
-        drawing(r:id=drawing.rId)
+        drawing(r:id=drawing.rId)/
 
