@@ -6,9 +6,9 @@ block content
       xdr:ext/&attributes(extent)
       xdr:pic
         xdr:nvPicPr
-          xdr:cNvPr(descr=description || filename, id=id, name=name || 'Picture ' + id)
+          xdr:cNvPr(descr=description || filename, id=id, name=name || 'Picture ' + id)/
           xdr:cNvPicPr
-            a:picLocks(noChangeAspect=1)
+            a:picLocks(noChangeAspect=1)/
         xdr:blipFill
           a:blip(r:embed="rId"+id, xmlns:r=ns.relationships)/
           a:stretch
@@ -18,5 +18,5 @@ block content
             a:off/&attributes(origin)
             a:ext/&attributes(extent)
           a:prstGeom(prst='rect')
-            a:avLst
+            a:avLst/
       xdr:clientData/
