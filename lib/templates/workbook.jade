@@ -1,6 +1,8 @@
 extends ./xml.jade
 block content
   workbook&attributes(namespaces)
+    bookViews
+      workbookView(windowHeight=768*20, windowWidth=1024*20, xWindow=0, yWindow=0)
     sheets
       each sheet, i in sheets
         sheet(name=sheet.name r:id=sheet.rId, sheetId=sheet.id)/
