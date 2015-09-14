@@ -9,7 +9,6 @@ block content
           t #{string}
         else if string && string.length
           each part in string
-            - console.log('rich text', part)
             if part.style
               +richTextStyle(part.style, part.text)
             else
