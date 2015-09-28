@@ -8,10 +8,15 @@ block content
         if typeof string == 'string'
           t #{string}
         else if string && string.length
-          each part in string
+          each part, i in string
+            - var spaceBounded = !!part.text.match(/^\s|\s$/)
             if part.style
               +richTextStyle(part.style, part.text)
+            else if spaceBounded
+              r
+                t(xml:space='preserve') #{part.text}
             else
-              t(xml:space='preserve') #{part.text}
+              r
+                t #{part.text}
         else
           t/
