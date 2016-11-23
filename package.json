@@ -47,8 +47,8 @@
     "lodash.pick": "^3.1.0",
     "lodash.where": "^3.1.0",
     "mime": "^1.3.4",
-    "node-uuid": "^1.4.3",
-    "templatizer": "^2.0.2"
+    "templatizer": "^2.0.2",
+    "uuid": "^3.0.0"
   },
   "devDependencies": {
     "code": "^1.5.0",
